@@ -1,0 +1,39 @@
+<!-- <h1>THis is dynamic compo</h1> -->
+
+<div *ngFor="let item of this.data.response; let i = index">
+  <ng-container [ngSwitch]="item.type">
+
+    <div *ngSwitchCase="'Title'">
+      <div class="type">{{item.type}}</div>
+      <h1>{{item.data.formTitle}}</h1>
+      <hr>
+    </div>
+
+    <div *ngSwitchCase="'Short Answer'">
+      <div class="type">{{item.type}}</div>
+      <h1>{{item.data.question}}</h1>
+      <input type="text" [name]="'Short Answer-' + item.data.question">
+      <hr>
+    </div>
+
+    <div *ngSwitchCase="'Number'">
+      <div class="type">{{item.type}}</div>
+      <h1>{{item.data.question}}</h1>
+      <input type="text" [name]="'Number-' + item.data.question">
+      <hr>
+    </div>
+
+    <div *ngSwitchCase="'Email'">
+      <div class="type">{{item.type}}</div>
+      <h1>{{item.data.question}}</h1>
+      <input type="text" [name]="'Email-' + item.data.question">
+      <hr>
+    </div>
+
+    <input *ngSwitchDefault type="text">
+  </ng-container>
+</div>
+
+<button (click)="saveForm()">saveForm</button>
+
+ <!-- <button (click)="onSubmit(i, shortAnswerInput.value)">Submit</button> -->

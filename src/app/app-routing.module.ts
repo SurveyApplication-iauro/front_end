@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { CreateFormComponent } from './create-form/create-form.component';
 import { HomeComponent } from './home/home.component';
+import { DynamicComponent } from './dynamic/dynamic.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     component: HomeComponent,
     path: 'home'
+  },
+  {
+    component: DynamicComponent,
+    path: 'dynamic'
   }
 ];
 
