@@ -1,6 +1,7 @@
 <div cdkDropListGroup>
   <div class="container" id="formElements">
     <h3></h3>
+
     <div
       cdkDropList
       [cdkDropListData]="formElements"
@@ -14,35 +15,187 @@
     </div>
   </div>
 
-  <div class="container" id="mainForm">
-    <h3></h3>
-    <div
-      cdkDropList
-      [cdkDropListData]="mainForm"
-      class="componentList"
-      id="mainForm"
-      (cdkDropListDropped)="drop($event)"
-    >
-      <div class="array-box-layout" *ngFor="let item of mainForm" cdkDrag>
-        <ng-container [ngSwitch]="item">
-          <app-head #headComponent *ngSwitchCase="'Title'"></app-head>
-          <app-short-ans #shortAnsComponent *ngSwitchCase="'Short Answer'"></app-short-ans>
-          <app-number #numberComponent *ngSwitchCase="'Number'"></app-number>
-          <app-email #emailComponent *ngSwitchCase="'Email'"></app-email>
-          <app-date #dateComponent *ngSwitchCase="'Date'"></app-date>
-          <app-single-correct
-            #singleCorrectComponent
-            *ngSwitchCase="'Single Correct'"
-          ></app-single-correct>
-          <app-multiple-correct
-            #multipleCorrectComponent
-            *ngSwitchCase="'Multiple Correct'"
-          ></app-multiple-correct>
-        </ng-container>
-      </div>
-      <button routerLink="/create-form" mat-button (click)="onFormSubmit()">
-        create-form
-      </button>
+  <div
+    cdkDropList
+    [cdkDropListData]="formStructure"
+    class="componentList"
+    id="formStructure"
+    (cdkDropListDropped)="drop($event)"
+  >
+    <div class="array-box-elements" *ngFor="let item of formStructure" cdkDrag>
+      {{ item }}
     </div>
+  </div>
+</div>
+
+<div class="container" id="mainForm">
+  <h3></h3>
+  <div
+    cdkDropList
+    [cdkDropListData]="mainForm"
+    class="componentList"
+    id="mainForm"
+    (cdkDropListDropped)="drop($event)"
+  >
+
+    <div class="array-box-layout" *ngFor="let item of formStructure">
+      <ng-container [ngSwitch]="item">
+        <div *ngSwitchCase="'Title'" class="form-item">
+          <label for="title">Title</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            class="form-field"
+            placeholder="Enter title"
+          />
+          <label for="description">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            class="form-field"
+            placeholder="Enter description"
+          ></textarea>
+        </div>
+        <div *ngSwitchCase="'Short Answer'" class="form-item">
+          <label for="question">Question</label>
+          <input
+            type="text"
+            id="question"
+            name="question"
+            class="form-field"
+            placeholder="Enter question"
+          />
+          <label for="answer">Answer</label>
+          <input
+            type="text"
+            id="answer"
+            name="answer"
+            class="form-field"
+            placeholder="Enter answer"
+          />
+        </div>
+        <div *ngSwitchCase="'Number'" class="form-item">
+          <label for="question">Question</label>
+          <input
+            type="text"
+            id="question"
+            name="question"
+            class="form-field"
+            placeholder="Enter question"
+          />
+          <label for="number">Number</label>
+          <input
+            type="number"
+            id="number"
+            name="number"
+            class="form-field"
+            placeholder="Enter number"
+          />
+        </div>
+        <div *ngSwitchCase="'Email'" class="form-item">
+          <label for="question">Question</label>
+          <input
+            type="text"
+            id="question"
+            name="question"
+            class="form-field"
+            placeholder="Enter question"
+          />
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-field"
+            placeholder="Enter email"
+          />
+        </div>
+        <div *ngSwitchCase="'Date'" class="form-item">
+          <label for="question">Question</label>
+          <input
+            type="text"
+            id="question"
+            name="question"
+            class="form-field"
+            placeholder="Enter question"
+          />
+          <label for="date">Date</label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            class="form-field"
+            placeholder="Enter date"
+          />
+        </div>
+        <div *ngSwitchCase="'Single Correct'" class="form-item">
+          <label for="question">Question</label>
+          <input
+            type="text"
+            id="question"
+            name="question"
+            class="form-field"
+            placeholder="Enter question"
+          />
+          <div class="options">
+            <div class="option">
+              <label for="option1">Option 1</label>
+              <input
+                type="radio"
+                id="option1"
+                name="option"
+                class="form-field"
+              />
+            </div>
+            <div class="option">
+              <label for="option2">Option 2</label>
+              <input
+                type="radio"
+                id="option2"
+                name="option"
+                class="form-field"
+              />
+            </div>
+            <div class="option">
+              <label for="option3">Option 3</label>
+              <input
+                type="radio"
+                id="option3"
+                name="option"
+                class="form-field"
+              />
+            </div>
+          </div>
+          <button (click)="addOption('Single Correct')">Add Option</button>
+        </div>
+        <div *ngSwitchCase="'Multiple Correct'" class="form-item">
+          <label for="question">Question</label>
+          <input
+            type="text"
+            id="question"
+            name="question"
+            class="form-field"
+            placeholder="Enter question"
+          />
+          <div class="options">
+            <div *ngFor="let option of options; let i = index" class="option">
+              <label [for]="'option' + i">Option {{ i + 1 }}</label>
+              <input
+                type="checkbox"
+                [id]="'option' + i"
+                [name]="'option' + i"
+                class="form-field"
+              />
+            </div>
+          </div>
+          <button (click)="addOption('Multiple Correct')">Add Option</button>
+        </div>
+      </ng-container>
+    </div>
+
+    <button routerLink="/create-form" mat-button (click)="onFormSubmit()">
+      create-form
+    </button>
   </div>
 </div>

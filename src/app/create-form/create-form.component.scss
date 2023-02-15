@@ -3,8 +3,15 @@
   position: fixed;
 }
 
+#formStructure{
+  width: 75px;
+  position: fixed;
+  margin-left: 120px;
+  margin-top: 60px;
+}
+
 #mainForm {
-  margin-left: 90px;
+  margin-left: 150px;
   width: minmax(400px, 50%);
 }
 
@@ -104,4 +111,29 @@ button:hover {
 
 .componentList.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+
+.form-item {
+  margin-bottom: 10px;
+  // background-color: red;
+}
+
+.form-field {
+  margin: 5px;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  margin: 5px;
+}
+
+.option label {
+  margin-right: 10px;
 }

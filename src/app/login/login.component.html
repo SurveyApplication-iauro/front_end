@@ -1,6 +1,7 @@
 <div class="containerBig">
   <div class="containerSmall">
     <form class="form">
+
       <mat-form-field class="full-width">
         <mat-label>Username</mat-label>
         <input
@@ -9,6 +10,7 @@
           placeholder="Enter your Username"
         />
       </mat-form-field>
+
       <mat-form-field class="full-width">
         <mat-label>Password</mat-label>
         <input
@@ -31,11 +33,7 @@
           Password must be at least 6 characters long
         </mat-error>
       </mat-form-field>
-      <button
-        [disabled]="isDisabled()"
-        (click)="login()"
-        class="login"
-      >
+      <button [disabled]="isDisabled()" (click)="login()" class="login">
         Login
       </button>
     </form>

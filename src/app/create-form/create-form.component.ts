@@ -1,9 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import {
   CdkDragDrop,
   copyArrayItem,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
+import { v4 as uuidv4 } from 'uuid';
+
 import { HeadComponent } from '../head/head.component';
 import { ShortAnsComponent } from '../short-ans/short-ans.component';
 import { NumberComponent } from '../number/number.component';
@@ -29,20 +31,49 @@ const formElementsMapping = {
   templateUrl: 'create-form.component.html',
   styleUrls: ['create-form.component.scss'],
 })
-export class CreateFormComponent {
-  constructor(public httpclient: HttpClient) {}
+export class CreateFormComponent implements OnInit {
+  item: string;
+  options: string[];
+
+  constructor(public httpclient: HttpClient) {
+    this.item = 'Title';
+    this.options = ['Option 1', 'Option 2', 'Option 3'];
+  }
+
+  ngOnInit(): void {}
+
+  addOption(item: string): void {
+    if (item === 'Single Correct') {
+      // Add a new single correct option
+      console.log("Single option added")
+    } else if (item === 'Multiple Correct') {
+      // Add a new multiple correct option
+      console.log("Multiple option added")
+    }
+  }
+
 
   formElements = [
     'Title',
     'Short Answer',
     'Number',
     'Email',
-    // 'Date',
-    // 'Single Correct',
-    // 'Multiple Correct',
+    'Date',
+    'Single Correct',
+    'Multiple Correct',
   ];
 
-  mainForm = ['Title', 'Email'];
+  formStructure = [
+    'Title',
+    'Short Answer',
+    'Number',
+    'Email',
+    'Date',
+    'Single Correct',
+    'Multiple Correct',
+  ];
+
+  mainForm = [];
 
   drop(event: CdkDragDrop<any>) {
     if (event.previousContainer === event.container) {
@@ -53,7 +84,7 @@ export class CreateFormComponent {
       );
     } else if (
       event.previousContainer.id === 'formElements' &&
-      event.container.id === 'mainForm'
+      event.container.id === 'formStructure'
     ) {
       const formElement = event.previousContainer.data[event.previousIndex];
       copyArrayItem(
@@ -64,7 +95,7 @@ export class CreateFormComponent {
       );
       event.container.data[event.currentIndex] = formElement;
     } else if (
-      event.previousContainer.id === 'mainForm' &&
+      event.previousContainer.id === 'formStructure' &&
       event.container.id === 'formElements'
     ) {
       event.previousContainer.data.splice(event.previousIndex, 1);
@@ -176,7 +207,5 @@ export class CreateFormComponent {
     }
 
     postData();
-
-
   }
 }
