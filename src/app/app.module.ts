@@ -32,6 +32,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 import { DynamicComponent } from './dynamic/dynamic.component';
+import { PreviousFormsComponent } from './previous-forms/previous-forms.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { DynamicComponent } from './dynamic/dynamic.component';
     MultipleCorrectComponent,
     HomeComponent,
     EmailComponent,
-    DynamicComponent
+    DynamicComponent,
+    PreviousFormsComponent
   ],
   providers: [],
   bootstrap: [AppComponent],

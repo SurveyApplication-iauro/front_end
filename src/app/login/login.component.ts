@@ -50,7 +50,13 @@ export class LoginComponent {
   }
 
   login() {
-    console.log(this.loginForm.value);
+    // console.log(this.loginForm.value);
+    console.log('-----pass here-----')
+    console.log(this.loginForm.value.userName);
+    console.log(this.loginForm.value.password);
+    console.log('-----pass here-----');
+
+    
     const headers1 = new HttpHeaders({
       'Content-Type': 'application/json',
     });

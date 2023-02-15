@@ -1,0 +1,16 @@
+body{
+  display: flex;
+  align-items: center;
+  justify-content: center ;
+}
+
+.buttonContainer{
+  display: grid;
+  width: 500px;
+  height: inherit;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+button{
+  margin: 5px;
+}
