@@ -1,4 +1,13 @@
-<div class="buttonContainer" *ngFor="let form of forms">
-  <button (click)="redirectToLink(form.link)">{{form.formName}}</button>
+<div class="container">
+  <div class="buttonContainer" *ngFor="let form of forms.my_forms">
+    <button>{{ form.Form_name }}</button>
+  </div>
+<!--
+  <div class="buttonContainer" *ngFor="let form of forms">
+    <button>{{ form.link }}</button>
+  </div>
+
+  <div class="buttonContainer" *ngFor="let form of forms">
+    <button>{{ form.downloadLink }}</button>
+  </div> -->
 </div>
-    <button routerLink="/signup" class="signup">Sign up</button>

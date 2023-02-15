@@ -1,4 +1,9 @@
-<!-- <h1>THis is dynamic compo</h1> -->
+<h1>username</h1>
+<input type="text" [(ngModel)]="username">
+<br>
+<br>
+<br>
+<br>
 
 <div *ngFor="let item of this.data.response; let i = index">
   <ng-container [ngSwitch]="item.type">
@@ -35,5 +40,3 @@
 </div>
 
 <button (click)="saveForm()">saveForm</button>
-
- <!-- <button (click)="onSubmit(i, shortAnswerInput.value)">Submit</button> -->

@@ -14,3 +14,10 @@ body{
 button{
   margin: 5px;
 }
+
+.container{
+  display: grid;
+  width: 500px;
+  height: inherit;
+  grid-template-columns: 1fr 1fr 1fr;
+}

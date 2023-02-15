@@ -3,14 +3,14 @@ import {
   OnInit,
   Input,
   ChangeDetectionStrategy,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
-//import { AllservicesService } from '../allservices.service';
 
 export interface Survey {
   question: string;
@@ -31,6 +31,7 @@ export class RootObject {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DynamicComponent implements OnInit {
+  username: string = '';
   public data: any;
   public url: string = '';
   public surveyID: String = '';
@@ -41,25 +42,23 @@ export class DynamicComponent implements OnInit {
   response_data: any;
 
   constructor(
-    //public allservices: AllservicesService,
     private fb: FormBuilder,
     private route: Router,
     private activeroute: ActivatedRoute,
     public httpclient: HttpClient
   ) {}
   ngOnInit() {
-    //To get a SurveyID from URL
     this.url = this.route.routerState.snapshot.url;
     this.surveyID = this.url.split('/')[2];
 
     this.activeroute.queryParams.subscribe((params) => {
-      console.log(params); // { orderby: "price" }
+      console.log(params);
       if (params) {
         this.admin_name = params['admin_name'];
         this.form_name = params['form_name'];
       }
       console.log(this.admin_name);
-      console.log(this.form_name); // price
+      console.log(this.form_name);
 
       const headers1 = new HttpHeaders({
         'Content-Type': 'application/json',
@@ -77,29 +76,46 @@ export class DynamicComponent implements OnInit {
           this.response_data = response;
           console.log(response);
           // this.data = this.response_data
-          this.data = { response: this.response_data };
+          // this.data = { response: this.response_data };
+          console.log(this.username);
+          //you get the username here
         });
     });
 
-    // modify the data for backend
-
-    // this.allservices.getSurveyStructure(this.surveyID).subscribe((response: RootObject) => {
-    //   // console.log(response);
-    //   this.data = response;
-    //   // this.formField=response;
-    //   // console.log(this.formField);
-    //   // this.setDynamicForm();
-    // });
+    this.data = {
+      response: [
+        {
+          type: 'Title',
+          data: {
+            formTitle: '',
+            formDescription: '',
+          },
+        },
+        {
+          type: 'Short Answer',
+          data: {
+            question: '',
+            answer: '',
+          },
+        },
+        {
+          type: 'Email',
+          data: {
+            question: '',
+            email: '',
+          },
+        },
+        {
+          type: 'Number',
+          data: {
+            question: '',
+            number: '',
+          },
+        },
+      ],
+    };
   }
 
-  setDynamicForm() {
-    // for(const control of controls)
-    // {
-    //   this.dynamicForm.addControl(control.title,this.fb.control(control.survey))
-    //   console.log(typeof controls)
-    // }
-    // console.log(JSON.parse(JSON.stringify(this.data.survey[0])).question)
-  }
   saveForm(): void {
     const responses = this.data.response.map(
       (item: { type: any; data: { formTitle: any; question: any } }) => {
@@ -126,5 +142,7 @@ export class DynamicComponent implements OnInit {
       }
     );
     console.log(responses);
+    console.log('print username on save frm');
+    console.log(this.username);
   }
 }
