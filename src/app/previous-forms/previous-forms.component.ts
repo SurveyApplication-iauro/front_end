@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-previous-forms',
@@ -7,7 +8,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./previous-forms.component.scss'],
 })
 export class PreviousFormsComponent {
-  
   openLink(formName: string) {
     const adminName = this.forms.admin_name;
     const link = `http://localhost:4200/dynamic/?admin_name=${adminName}&form_name=${formName}`;
@@ -32,9 +32,30 @@ export class PreviousFormsComponent {
     ],
   };
 
-  //http://localhost:4200/dynamic/?admin_name=${admin_name}&form_name=${form_name}
+  constructor(private router: Router, public httpclient: HttpClient) {}
+  ngOnInit() {
+    let token;
 
-  constructor(private router: Router) {}
+    const auth_token = localStorage.getItem('currentuser');
+    console.log(auth_token);
+
+    if (auth_token) {
+      token = JSON.parse(auth_token);
+      console.log(token);
+    }
+
+    const headers1 = new HttpHeaders({
+      'Content-Type': 'application/json',
+      authorization: 'Bearer ' + token,
+    });
+
+    this.httpclient
+      .get('http://localhost:7600/show_my_forms', { headers: headers1 })
+      .subscribe((response) => {
+        this.forms = response;
+        console.log('Show my Forms', response);
+      });
+  }
 
   redirectToLink(link: string) {
     this.router.navigate([link]);
