@@ -14,24 +14,24 @@
 <hr>
 
 <div *ngFor="let item of this.data.response; let i = index">
-  <ng-container [ngSwitch]="item.type">
+  <ng-container [ngSwitch]="item.Type">
 
     <div *ngSwitchCase="'Short Answer'">
-      <div class="type">{{item.type}}</div>
+      <div class="type">{{item.Type}}</div>
       <h1>{{item.question}}</h1>
       <input type="text" [name]="'Short Answer-' + item.question">
       <hr>
     </div>
 
     <div *ngSwitchCase="'Number'">
-      <div class="type">{{item.type}}</div>
+      <div class="type">{{item.Type}}</div>
       <h1>{{item.question}}</h1>
       <input type="text" [name]="'Number-' + item.question">
       <hr>
     </div>
 
     <div *ngSwitchCase="'Email'">
-      <div class="type">{{item.type}}</div>
+      <div class="type">{{item.Type}}</div>
       <h1>{{item.question}}</h1>
       <input type="text" [name]="'Email-' + item.question">
       <hr>

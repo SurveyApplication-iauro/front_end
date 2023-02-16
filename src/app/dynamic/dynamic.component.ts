@@ -90,15 +90,15 @@ export class DynamicComponent implements OnInit {
           Title: 'THis is you r frm ititil',
         },
         {
-          type: 'Short Answer',
+          Type: 'Short Answer',
           question: 'What is your name',
         },
         {
-          type: 'Email',
+          Type: 'Email',
           question: 'your prsnl email',
         },
         {
-          type: 'Number',
+          Type: 'Number',
           question: 'your phone no.',
         },
       ],
@@ -141,23 +141,23 @@ export class DynamicComponent implements OnInit {
   saveForm(): void {
     this.data.response.shift();
     const responses = this.data.response.map(
-      (item: { type: any; question: any }) => {
-        const type = item.type;
+      (item: { Type: any; question: any }) => {
+        const Type = item.Type;
         let response;
-        switch (type) {
+        switch (Type) {
           case 'Short Answer':
           case 'Number':
           case 'Email':
             response = (
               document.querySelector(
-                `[name="${type}-${item.question}"]`
+                `[name="${Type}-${item.question}"]`
               ) as HTMLInputElement
             )?.value;
             break;
           default:
             break;
         }
-        return { type, response };
+        return { Type, response };
       }
     );
     responses.unshift({"useremail": this.useremail} );
