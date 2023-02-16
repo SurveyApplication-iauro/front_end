@@ -11,6 +11,7 @@ export class MultipleCorrectComponent {
   checkboxes = [false, false, false, false];
 
   questionControl = new FormControl('');
+  options: any;
 
   onCheckboxChange(index: number) {
     this.checkboxes[index - 1] = !this.checkboxes[index - 1];

@@ -4,27 +4,13 @@ import {
   copyArrayItem,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
+
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { v4 as uuidv4 } from 'uuid';
 
-import { HeadComponent } from '../head/head.component';
-import { ShortAnsComponent } from '../short-ans/short-ans.component';
-import { NumberComponent } from '../number/number.component';
-import { EmailComponent } from '../email/email.component';
-import { DateComponent } from '../date/date.component';
-import { SingleCorrectComponent } from '../single-correct/single-correct.component';
-import { MultipleCorrectComponent } from '../multiple-correct/multiple-correct.component';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Token } from '@angular/compiler';
-
-const formElementsMapping = {
-  Title: 'app-head',
-  'Short Answer': 'app-short-ans',
-  Number: 'app-number',
-  Email: 'app-email',
-  Date: 'app-date',
-  'Single Correct': 'app-single-correct',
-  'Multiple Correct': 'app-multiple-correct',
-};
+// interface FormData {
+//   formItems: Array<TitleData | ShortAnswerData | NumberData | EmailData | DateData | SingleCorrectData | MultipleCorrectData>;
+// }
 
 @Component({
   selector: 'app-create-form',
@@ -34,6 +20,8 @@ const formElementsMapping = {
 export class CreateFormComponent implements OnInit {
   item: string;
   options: string[];
+  singleCorrectComponent: any;
+  multipleCorrectComponent: any;
 
   constructor(public httpclient: HttpClient) {
     this.item = 'Title';
@@ -45,13 +33,21 @@ export class CreateFormComponent implements OnInit {
   addOption(item: string): void {
     if (item === 'Single Correct') {
       // Add a new single correct option
-      console.log("Single option added")
+      const singleCorrectComponent = this.singleCorrectComponent;
+      const newOption = {
+        id: uuidv4(),
+        text: '',
+        isCorrect: false,
+        isEdited: true,
+      };
+      // Add the new option to the component's options array
+      singleCorrectComponent.options.push(newOption);
+      console.log('Single option added');
     } else if (item === 'Multiple Correct') {
-      // Add a new multiple correct option
-      console.log("Multiple option added")
+      const newOption = `Option ${this.options.length + 1}`;
+      this.options.push(newOption);
     }
   }
-
 
   formElements = [
     'Title',
@@ -59,8 +55,8 @@ export class CreateFormComponent implements OnInit {
     'Number',
     'Email',
     'Date',
-    'Single Correct',
-    'Multiple Correct',
+    // 'Single Correct',
+    // 'Multiple Correct',
   ];
 
   formStructure = [
@@ -69,8 +65,6 @@ export class CreateFormComponent implements OnInit {
     'Number',
     'Email',
     'Date',
-    'Single Correct',
-    'Multiple Correct',
   ];
 
   mainForm = [];
@@ -102,110 +96,97 @@ export class CreateFormComponent implements OnInit {
     }
   }
 
-  @ViewChild(HeadComponent)
-  headComponent!: HeadComponent;
-
-  @ViewChild(ShortAnsComponent)
-  shortAnsComponent!: ShortAnsComponent;
-
-  @ViewChild(NumberComponent)
-  numberComponent!: NumberComponent;
-
-  @ViewChild(EmailComponent)
-  emailComponent!: EmailComponent;
-
-  @ViewChild(DateComponent)
-  dateComponent!: DateComponent;
-
-  @ViewChild(SingleCorrectComponent)
-  singleCorrectComponent!: SingleCorrectComponent;
-
-  @ViewChild(MultipleCorrectComponent)
-  multipleCorrectComponent!: MultipleCorrectComponent;
-
-  onFormSubmit() {
+  onFormSubmit(): void {
     const formData: any[] = [];
-    for (let i = 0; i < this.mainForm.length; i++) {
-      if (this.mainForm[i] in formElementsMapping) {
-        const key = this.mainForm[i] as keyof typeof formElementsMapping;
-        switch (key) {
-          case 'Title':
-            formData.push({
-              type: key,
-              data: this.headComponent.getValue(),
-            });
-            break;
-          case 'Short Answer':
-            formData.push({
-              type: key,
-              data: this.shortAnsComponent.getValue(),
-            });
-            break;
-          case 'Number':
-            formData.push({
-              type: key,
-              data: this.numberComponent.getValue(),
-            });
-            break;
-          case 'Email':
-            formData.push({
-              type: key,
-              data: this.emailComponent.getValue(),
-            });
-            break;
-          case 'Date':
-            formData.push({
-              type: key,
-              data: this.dateComponent.getValue(),
-            });
-            break;
-          case 'Single Correct':
-            formData.push({
-              type: key,
-              data: this.singleCorrectComponent.getValue(),
-            });
-            break;
-          case 'Multiple Correct':
-            formData.push({
-              type: key,
-              data: this.multipleCorrectComponent.getValue(),
-            });
-            break;
-          default:
-            break;
-        }
+    const formItems = document.querySelectorAll('.form-item');
+    formItems.forEach((formItem) => {
+      const formItemData: any = {};
+      const formFields = formItem.querySelectorAll('.form-field');
+      formFields.forEach((formField: any) => {
+        formItemData[formField.name] = formField.value;
+      });
+      if (formItem.classList.contains('options')) {
+        const options: any[] = [];
+        const optionFields = formItem.querySelectorAll('.option');
+        optionFields.forEach((optionField: any) => {
+          const option: any = {};
+          option['label'] = optionField.querySelector('label').innerText;
+          option['value'] = optionField.querySelector('input').checked;
+          options.push(option);
+        });
+        formItemData['options'] = options;
       }
-    }
+      formData.push(formItemData);
+    });
+    formData.unshift({ userName: '' });
+    console.log(JSON.stringify(formData));
+
     let token;
 
-    const auth_token = localStorage.getItem('currentuser');
-    console.log(auth_token);
+      const auth_token = localStorage.getItem('currentuser');
+      console.log(auth_token);
 
-    async function postData(this: any) {
-      let token;
-      if (auth_token) {
-        token = JSON.parse(auth_token);
-        console.log(token);
+      async function postData(this: any) {
+        let token;
+        if (auth_token) {
+          token = JSON.parse(auth_token);
+          console.log(token);
+        }
+        const headers1 = new HttpHeaders({
+          'Content-Type': 'application/json',
+          authorization: 'Bearer ' + token,
+        });
+
+        console.log(formData);
+
+        try {
+          const response = await this.httpclient
+            .post('http://localhost:7600/create_form', formData, {
+              headers: headers1,
+            })
+            .toPromise();
+          console.log(response);
+        } catch (error) {
+          console.error(error);
+        }
       }
-      const headers1 = new HttpHeaders({
-        'Content-Type': 'application/json',
-        authorization: 'Bearer ' + token,
-      });
 
-      console.log(formData);
-
-      try {
-        const response = await this.httpclient
-          .post('http://localhost:7600/create_form', formData, {
-            headers: headers1,
-          })
-          .toPromise();
-        console.log(response);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    postData();
+      postData();
   }
+
+  // onFormSubmit() {
+  //   const formData = {};
+
+  //   let token;
+
+  //   const auth_token = localStorage.getItem('currentuser');
+  //   console.log(auth_token);
+
+  //   async function postData(this: any) {
+  //     let token;
+  //     if (auth_token) {
+  //       token = JSON.parse(auth_token);
+  //       console.log(token);
+  //     }
+  //     const headers1 = new HttpHeaders({
+  //       'Content-Type': 'application/json',
+  //       authorization: 'Bearer ' + token,
+  //     });
+
+  //     console.log(formData);
+
+  //     try {
+  //       const response = await this.httpclient
+  //         .post('http://localhost:7600/create_form', formData, {
+  //           headers: headers1,
+  //         })
+  //         .toPromise();
+  //       console.log(response);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+
+  //   postData();
+  // }
 }

@@ -32,11 +32,14 @@
   <h3></h3>
   <div
     cdkDropList
-    [cdkDropListData]="mainForm"
     class="componentList"
     id="mainForm"
     (cdkDropListDropped)="drop($event)"
   >
+      <span>
+        <p>username</p><input type="text">
+      </span>
+      <hr>
 
     <div class="array-box-layout" *ngFor="let item of formStructure">
       <ng-container [ngSwitch]="item">
@@ -129,6 +132,9 @@
             placeholder="Enter date"
           />
         </div>
+
+        <!-- improve this field -->
+
         <div *ngSwitchCase="'Single Correct'" class="form-item">
           <label for="question">Question</label>
           <input
@@ -140,7 +146,7 @@
           />
           <div class="options">
             <div class="option">
-              <label for="option1">Option 1</label>
+              <label for="option1" contenteditable="true">Option 1</label>
               <input
                 type="radio"
                 id="option1"
@@ -149,7 +155,7 @@
               />
             </div>
             <div class="option">
-              <label for="option2">Option 2</label>
+              <label for="option2" contenteditable="true">Option 2</label>
               <input
                 type="radio"
                 id="option2"
@@ -158,7 +164,9 @@
               />
             </div>
             <div class="option">
-              <label for="option3">Option 3</label>
+              <label for="option3" contenteditable="true"
+                >Option editabe 3</label
+              >
               <input
                 type="radio"
                 id="option3"
@@ -169,6 +177,7 @@
           </div>
           <button (click)="addOption('Single Correct')">Add Option</button>
         </div>
+
         <div *ngSwitchCase="'Multiple Correct'" class="form-item">
           <label for="question">Question</label>
           <input
@@ -180,7 +189,9 @@
           />
           <div class="options">
             <div *ngFor="let option of options; let i = index" class="option">
-              <label [for]="'option' + i">Option {{ i + 1 }}</label>
+              <label contenteditable="true" [for]="'option' + i"
+                >Option {{ i + 1 }}</label
+              >
               <input
                 type="checkbox"
                 [id]="'option' + i"

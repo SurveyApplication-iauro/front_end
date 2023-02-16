@@ -12,6 +12,7 @@ export class SingleCorrectComponent {
   questionControl = new FormControl('');
 
   @Output() valueEvent = new EventEmitter<void>();
+  options: any;
 
   getValue() {
     this.valueEvent.emit();
