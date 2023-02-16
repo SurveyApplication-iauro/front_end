@@ -1,7 +1,8 @@
 <div class="container">
-  <div class="buttonContainer" *ngFor="let form of forms.my_forms">
-    <button>{{ form.Form_name }}</button>
-  </div>
+<div class="buttonContainer" *ngFor="let form of forms.my_forms">
+  <button (click)="openLink(form.Form_name)">{{ form.Form_name }}</button>
+</div>
+</div>
 <!--
   <div class="buttonContainer" *ngFor="let form of forms">
     <button>{{ form.link }}</button>
@@ -10,4 +11,3 @@
   <div class="buttonContainer" *ngFor="let form of forms">
     <button>{{ form.downloadLink }}</button>
   </div> -->
-</div>

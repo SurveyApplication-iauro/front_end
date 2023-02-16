@@ -151,7 +151,6 @@ export class CreateFormComponent implements OnInit {
     });
     // formData.unshift({ Title: '' });
     console.log(formData);
-    console.log(formData);
     console.log(JSON.stringify(formData));
 
     let token;
