@@ -13,6 +13,7 @@ export class PreviousFormsComponent {
     const link = `http://localhost:4200/dynamic/?admin_name=${adminName}&form_name=${formName}`;
     window.alert(link);
   }
+form_responses:any;
 
   forms: any = {
     admin_name: 'hello',
@@ -55,6 +56,32 @@ export class PreviousFormsComponent {
         this.forms = response;
         console.log('Show my Forms', response);
       });
+  }
+
+  show_responses(){
+   
+    let token;
+
+    const auth_token = localStorage.getItem('currentuser');
+    console.log(auth_token);
+
+    if (auth_token) {
+      token = JSON.parse(auth_token);
+      console.log(token);
+    }
+
+    const headers1 = new HttpHeaders({
+      'Content-Type': 'application/json',
+      authorization: 'Bearer ' + token,
+    });
+
+    this.httpclient
+      .get('http://localhost:7600/show_responses/Night lyyf title', { headers: headers1 })
+      .subscribe((response) => {
+        this.form_responses= response;
+        console.log('Show my Forms', response);
+      });
+
   }
 
   redirectToLink(link: string) {

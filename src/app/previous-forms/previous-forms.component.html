@@ -3,6 +3,23 @@
   <button (click)="openLink(form.Form_name)">{{ form.Form_name }}</button>
 </div>
 </div>
+
+
+<button (click)="show_responses()">Show Responses</button>
+
+
+<table id="excel-table">
+<tr>
+<th *ngFor="let question of form_responses.question">{{question}}</th>
+</tr>
+<tr *ngFor="let users of form_responses.answers">
+<td *ngFor="let answer of users">{{answer}}</td>
+</tr>
+</table>
+
+
+
+
 <!--
   <div class="buttonContainer" *ngFor="let form of forms">
     <button>{{ form.link }}</button>

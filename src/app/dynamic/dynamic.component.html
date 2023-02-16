@@ -1,44 +1,56 @@
 
+
 <div>
-      <div class="type">Title</div>
+
+  <div>
+    <h1>Title</h1>
       <h1>{{data.response[0].Title}}</h1>
       <hr>
-</div>
+    </div>
+    
+    <h1>username</h1>
+    <input type="text" [(ngModel)]="username">
+    <hr>
+    
+    <h1>user email</h1>
+    <input type="text" [(ngModel)]="useremail">
+    <hr>
 
-<h1>username</h1>
-<input type="text" [(ngModel)]="username">
-<hr>
-
-<h1>user email</h1>
-<input type="text" [(ngModel)]="useremail">
-<hr>
-
-<div *ngFor="let item of this.data.response; let i = index">
-  <ng-container [ngSwitch]="item.Type">
-
-    <div *ngSwitchCase="'Short Answer'">
+    <div *ngFor="let item of this.data.response; let i = index">
+      <ng-container [ngSwitch]="item.Type">
+        
+        <div *ngSwitchCase="'short answer'">
+          <div class="type">{{item.Type}}</div>
+      <h1>{{item.question}}</h1>
+      <input type="text" [name]="'short answer-' + item.question">
+      <hr>
+    </div>
+    
+    <div *ngSwitchCase="'number'">
       <div class="type">{{item.Type}}</div>
       <h1>{{item.question}}</h1>
-      <input type="text" [name]="'Short Answer-' + item.question">
+      <input type="text" [name]="'number-' + item.question">
+      <hr>
+    </div>
+    
+    <div *ngSwitchCase="'email'">
+      <div class="type">{{item.Type}}</div>
+      <h1>{{item.question}}</h1>
+      <input type="text" [name]="'email-' + item.question">
       <hr>
     </div>
 
-    <div *ngSwitchCase="'Number'">
+     
+    <div *ngSwitchCase="'date'">
       <div class="type">{{item.Type}}</div>
       <h1>{{item.question}}</h1>
-      <input type="text" [name]="'Number-' + item.question">
+      <input type="date" [name]="'date-' + item.question">
       <hr>
     </div>
-
-    <div *ngSwitchCase="'Email'">
-      <div class="type">{{item.Type}}</div>
-      <h1>{{item.question}}</h1>
-      <input type="text" [name]="'Email-' + item.question">
-      <hr>
-    </div>
-
+    
     <p *ngSwitchDefault></p>
   </ng-container>
 </div>
 
-<button (click)="saveForm()">saveForm</button>
+<button [disabled]="is_saved" (click)="saveForm()">saveForm</button>
+</div>
