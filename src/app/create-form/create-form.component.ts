@@ -126,32 +126,35 @@ export class CreateFormComponent implements OnInit {
       const auth_token = localStorage.getItem('currentuser');
       console.log(auth_token);
 
-      async function postData(this: any) {
-        let token;
-        if (auth_token) {
-          token = JSON.parse(auth_token);
-          console.log(token);
-        }
-        const headers1 = new HttpHeaders({
-          'Content-Type': 'application/json',
-          authorization: 'Bearer ' + token,
-        });
-
-        console.log(formData);
-
-        try {
-          const response = await this.httpclient
-            .post('http://localhost:7600/create_form', formData, {
-              headers: headers1,
-            })
-            .toPromise();
-          console.log(response);
-        } catch (error) {
-          console.error(error);
-        }
+      if(auth_token){
+        token= JSON.parse(auth_token)
+        console.log(token)
+        
       }
-
-      postData();
+  
+      const headers1 = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'authorization':"Bearer " +token
+    })
+        
+    
+  
+      
+      
+      // const headers1 = new HttpHeaders().set(
+      //   "authorization",
+      //   JSON.parse(localStorage.getItem('currentUser') || '{}')   );
+  
+      console.log(formData);
+      // Store formData in the database
+  
+    
+      this.httpclient
+        .post('http://localhost:7600/create_form', formData, { headers: headers1 })
+        .subscribe((response) => {
+          console.log(response);
+        });
+  
   }
 
   // onFormSubmit() {
