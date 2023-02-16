@@ -7,24 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./previous-forms.component.scss'],
 })
 export class PreviousFormsComponent {
-  // forms: any = [
-  //   {
-  //     formName: 'Form 1',
-  //     link: 'https://www.google.com',
-  //     downloadLink: 'https://www.google.com',
-  //   },
-  //   {
-  //     formName: 'Form 2',
-  //     link: 'https://www.bing.com',
-  //     downloadLink: 'https://www.bing.com',
-  //   },
-  //   {
-  //     formName: 'Form 3',
-  //     link: 'https://www.duckduckgo.com',
-  //     downloadLink: 'https://www.google.com',
-  //   },
-  // ];
-
+  
   openLink(formName: string) {
     const adminName = this.forms.admin_name;
     const link = `http://localhost:4200/dynamic/?admin_name=${adminName}&form_name=${formName}`;
