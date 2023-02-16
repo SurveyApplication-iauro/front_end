@@ -37,12 +37,14 @@
     (cdkDropListDropped)="drop($event)"
   >
       <span>
-        <p>username</p><input type="text">
+        <p>Title</p><input type="text" #myInput (input)="onInputChange(myInput.value)">
       </span>
       <hr>
 
     <div class="array-box-layout" *ngFor="let item of formStructure">
       <ng-container [ngSwitch]="item">
+
+
         <div *ngSwitchCase="'Title'" class="form-item">
           <label for="title">Title</label>
           <input
@@ -53,6 +55,7 @@
             placeholder="Enter title"
           />
           <label for="description">Description</label>
+
           <textarea
             id="description"
             name="description"
@@ -60,6 +63,7 @@
             placeholder="Enter description"
           ></textarea>
         </div>
+
         <div *ngSwitchCase="'Short Answer'" class="form-item">
           <label for="question">Question</label>
           <input
@@ -72,7 +76,7 @@
           <label for="answer">Answer</label>
           <input
             type="text"
-            id="answer"
+            id="short answer"
             name="answer"
             class="form-field"
             placeholder="Enter answer"

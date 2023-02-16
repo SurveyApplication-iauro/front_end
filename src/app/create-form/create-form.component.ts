@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import {
   CdkDragDrop,
   copyArrayItem,
@@ -8,9 +8,21 @@ import {
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { v4 as uuidv4 } from 'uuid';
 
-// interface FormData {
-//   formItems: Array<TitleData | ShortAnswerData | NumberData | EmailData | DateData | SingleCorrectData | MultipleCorrectData>;
-// }
+interface FormItemData {
+  formTitle?: string;
+  formDescription?: string;
+  question?: string;
+  answer?: string;
+  email?: string;
+  number?: string;
+  date?: string;
+}
+
+interface FormItem {
+  type: string;
+  data: FormItemData;
+}
+
 
 @Component({
   selector: 'app-create-form',
@@ -18,6 +30,8 @@ import { v4 as uuidv4 } from 'uuid';
   styleUrls: ['create-form.component.scss'],
 })
 export class CreateFormComponent implements OnInit {
+  @ViewChild('description') descriptionRef!: ElementRef;
+
   item: string;
   options: string[];
   singleCorrectComponent: any;
@@ -50,7 +64,7 @@ export class CreateFormComponent implements OnInit {
   }
 
   formElements = [
-    'Title',
+    // 'Title',
     'Short Answer',
     'Number',
     'Email',
@@ -59,13 +73,7 @@ export class CreateFormComponent implements OnInit {
     // 'Multiple Correct',
   ];
 
-  formStructure = [
-    'Title',
-    'Short Answer',
-    'Number',
-    'Email',
-    'Date',
-  ];
+  formStructure = ['Short Answer', 'Number', 'Email', 'Date'];
 
   mainForm = [];
 
@@ -96,64 +104,90 @@ export class CreateFormComponent implements OnInit {
     }
   }
 
+  // onFormSubmit() {
+  //   const formElements = Array.from(document.querySelectorAll('.form-item'));
+
+  //   const formData = formElements.map((element) => {
+  //     const elementTitle = element.querySelector('label')?.innerText;
+  //     const elementInputs = Array.from(element.querySelectorAll('.form-field'));
+
+  //     const inputNames = elementInputs.map((input) => input.name);
+  //     const inputValues = elementInputs.map((input) => input.value);
+
+  //     const data = {};
+  //     for (let i = 0; i < inputNames.length; i++) {
+  //       data[inputNames[i]] = inputValues[i];
+  //     }
+
+  //     return {
+  //       type: elementTitle,
+  //       data,
+  //     };
+  //   });
+
+  //   console.log(JSON.stringify(formData));
+  // }
+
+  title: any;
+  onInputChange(value: string) {
+    this.title = value;
+  }
+
   onFormSubmit(): void {
-    const formData: any[] = [];
+    const formData: any[] = [{ Title: this.title }];
     const formItems = document.querySelectorAll('.form-item');
+
     formItems.forEach((formItem) => {
       const formItemData: any = {};
       const formFields = formItem.querySelectorAll('.form-field');
+
       formFields.forEach((formField: any) => {
-        formItemData[formField.name] = formField.value;
+        if (formField.name === 'question')
+          formItemData[formField.name] = formField.value;
+        formItemData['Type'] = formField.id;
       });
-      if (formItem.classList.contains('options')) {
-        const options: any[] = [];
-        const optionFields = formItem.querySelectorAll('.option');
-        optionFields.forEach((optionField: any) => {
-          const option: any = {};
-          option['label'] = optionField.querySelector('label').innerText;
-          option['value'] = optionField.querySelector('input').checked;
-          options.push(option);
-        });
-        formItemData['options'] = options;
-      }
+
       formData.push(formItemData);
     });
-    formData.unshift({ userName: '' });
+    // formData.unshift({ Title: '' });
+    console.log(formData);
+    console.log(formData);
     console.log(JSON.stringify(formData));
 
     let token;
 
-      const auth_token = localStorage.getItem('currentuser');
-      console.log(auth_token);
+    const auth_token = localStorage.getItem('currentuser');
+    console.log(auth_token);
 
-      async function postData(this: any) {
-        let token;
-        if (auth_token) {
-          token = JSON.parse(auth_token);
-          console.log(token);
-        }
-        const headers1 = new HttpHeaders({
-          'Content-Type': 'application/json',
-          authorization: 'Bearer ' + token,
-        });
-
-        console.log(formData);
-
-        try {
-          const response = await this.httpclient
-            .post('http://localhost:7600/create_form', formData, {
-              headers: headers1,
-            })
-            .toPromise();
-          console.log(response);
-        } catch (error) {
-          console.error(error);
-        }
+    async function postData(this: any) {
+      let token;
+      if (auth_token) {
+        token = JSON.parse(auth_token);
+        console.log(token);
       }
+      const headers1 = new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: 'Bearer ' + token,
+      });
 
-      postData();
+      console.log(FormData);
+
+      try {
+        const response = await this.httpclient
+          .post('http://localhost:7600/create_form', FormData, {
+            headers: headers1,
+          })
+          .toPromise();
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
-
+}
+  //   postData();
+  // }
+  // }
   // onFormSubmit() {
   //   const formData = {};
 
@@ -189,4 +223,4 @@ export class CreateFormComponent implements OnInit {
 
   //   postData();
   // }
-}
+// }
