@@ -25,6 +25,12 @@ export class PreviousFormsComponent {
   //   },
   // ];
 
+  openLink(formName: string) {
+    const adminName = this.forms.admin_name;
+    const link = `http://localhost:4200/dynamic/?admin_name=${adminName}&form_name=${formName}`;
+    window.alert(link);
+  }
+
   forms: any = {
     admin_name: 'hello',
     my_forms: [
@@ -42,6 +48,8 @@ export class PreviousFormsComponent {
       },
     ],
   };
+
+  //http://localhost:4200/dynamic/?admin_name=${admin_name}&form_name=${form_name}
 
   constructor(private router: Router) {}
 
