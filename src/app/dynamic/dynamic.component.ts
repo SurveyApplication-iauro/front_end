@@ -77,65 +77,35 @@ export class DynamicComponent implements OnInit {
           this.response_data = response;
           console.log(response);
           // this.data = this.response_data
-          // this.data = { response: this.response_data };
+          this.data = { response: this.response_data };
           console.log(this.username);
           //you get the username here
         });
     });
 
     //make changes here
-    this.data = {
-      response: [
-        {
-          Title: 'THis is you r frm ititil',
-        },
-        {
-          Type: 'Short Answer',
-          question: 'What is your name',
-        },
-        {
-          Type: 'Email',
-          question: 'your prsnl email',
-        },
-        {
-          Type: 'Number',
-          question: 'your phone no.',
-        },
-      ],
-    };
 
     // this.data = {
     //   response: [
     //     {
-    //       type: 'Title',
-    //       data: {
-    //         formTitle: '',
-    //         formDescription: '',
-    //       },
+    //       Title: 'THis is you r frm ititil',
     //     },
     //     {
     //       type: 'Short Answer',
-    //       data: {
-    //         question: '',
-    //         answer: '',
-    //       },
+    //       question: 'What is your name',
     //     },
     //     {
     //       type: 'Email',
-    //       data: {
-    //         question: '',
-    //         email: '',
-    //       },
+    //       question: 'your prsnl email',
     //     },
     //     {
     //       type: 'Number',
-    //       data: {
-    //         question: '',
-    //         number: '',
-    //       },
+    //       question: 'your phone no.',
     //     },
     //   ],
     // };
+
+   
   }
 
   saveForm(): void {
@@ -163,5 +133,21 @@ export class DynamicComponent implements OnInit {
     responses.unshift({"useremail": this.useremail} );
     responses.unshift({ "username": this.username } );
     console.log(responses);
+
+
+  /////integrator changes//////
+  const headers2 = new HttpHeaders({
+    'Content-Type': 'application/json'
+})
+console.log("the admin_name in the last",this.admin_name)
+this.httpclient
+    .post('http://localhost:7600/user/fill_form/'+this.admin_name+"/"+this.form_name  , responses, { headers: headers2 })
+    .subscribe((response) => {
+      
+      console.log(response);
+    });
+
+
+
   }
 }
