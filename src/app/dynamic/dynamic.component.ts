@@ -82,38 +82,76 @@ export class DynamicComponent implements OnInit {
         });
     });
 
-    this.data = {
-      response: [
-        {
-          type: 'Title',
-          data: {
-            formTitle: '',
-            formDescription: '',
-          },
-        },
-        {
-          type: 'Short Answer',
-          data: {
-            question: '',
-            answer: '',
-          },
-        },
-        {
-          type: 'Email',
-          data: {
-            question: '',
-            email: '',
-          },
-        },
-        {
-          type: 'Number',
-          data: {
-            question: '',
-            number: '',
-          },
-        },
-      ],
-    };
+
+    //make changes here
+        this.data = {
+          response: [
+            {
+              type: 'Title',
+              data: {
+                formTitle: '',
+                formDescription: '',
+              },
+            },
+            {
+              type: 'Short Answer',
+              data: {
+                question: '',
+                answer: '',
+              },
+            },
+            {
+              type: 'Email',
+              data: {
+                question: '',
+                email: '',
+              },
+            },
+            {
+              type: 'Number',
+              data: {
+                question: '',
+                number: '',
+              },
+            },
+          ],
+        };
+
+
+
+
+    // this.data = {
+    //   response: [
+    //     {
+    //       type: 'Title',
+    //       data: {
+    //         formTitle: '',
+    //         formDescription: '',
+    //       },
+    //     },
+    //     {
+    //       type: 'Short Answer',
+    //       data: {
+    //         question: '',
+    //         answer: '',
+    //       },
+    //     },
+    //     {
+    //       type: 'Email',
+    //       data: {
+    //         question: '',
+    //         email: '',
+    //       },
+    //     },
+    //     {
+    //       type: 'Number',
+    //       data: {
+    //         question: '',
+    //         number: '',
+    //       },
+    //     },
+    //   ],
+    // };
   }
 
   saveForm(): void {
