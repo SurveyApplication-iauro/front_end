@@ -1,4 +1,5 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   CdkDragDrop,
   copyArrayItem,
@@ -37,7 +38,7 @@ export class CreateFormComponent implements OnInit {
   singleCorrectComponent: any;
   multipleCorrectComponent: any;
 
-  constructor(public httpclient: HttpClient) {
+  constructor(public httpclient: HttpClient,private router: Router) {
     this.item = 'Title';
     this.options = ['Option 1', 'Option 2', 'Option 3'];
   }
@@ -187,6 +188,10 @@ export class CreateFormComponent implements OnInit {
         .post('http://localhost:7600/create_form', formData, { headers: headers1 })
         .subscribe((response) => {
           console.log(response);
+          alert("your form has been created")
+          setTimeout(() => {
+            this.router.navigate(['/home']);
+          }, 500);// handle successful login case
         });
   
   }

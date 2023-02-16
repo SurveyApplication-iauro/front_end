@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+
 export interface Survey {
   question: string;
   answertype: string;
@@ -36,18 +37,22 @@ export class DynamicComponent implements OnInit {
   public data: any;
   public url: string = '';
   public surveyID: String = '';
+  
+
   dynamicForm = this.fb.group({});
   //.................
   admin_name!: string;
   form_name!: string;
   response_data: any;
-
+  is_saved=false;
   constructor(
     private fb: FormBuilder,
     private route: Router,
     private activeroute: ActivatedRoute,
     public httpclient: HttpClient
   ) {}
+  //load_status=true;
+  
   ngOnInit() {
     this.url = this.route.routerState.snapshot.url;
     this.surveyID = this.url.split('/')[2];
@@ -74,11 +79,13 @@ export class DynamicComponent implements OnInit {
           { headers: headers1 }
         )
         .subscribe((response) => {
-          this.response_data = response;
+          //this.response_data = response;
           console.log(response);
           // this.data = this.response_data
-          this.data = { response: this.response_data };
+          this.data = { response: response };
+          
           console.log(this.username);
+          
           //you get the username here
         });
     });
@@ -107,7 +114,7 @@ export class DynamicComponent implements OnInit {
 
    
   }
-
+  
   saveForm(): void {
     this.data.response.shift();
     const responses = this.data.response.map(
@@ -115,9 +122,10 @@ export class DynamicComponent implements OnInit {
         const Type = item.Type;
         let response;
         switch (Type) {
-          case 'Short Answer':
-          case 'Number':
-          case 'Email':
+          case 'short answer':
+          case 'number':
+          case 'email':
+          case 'date':
             response = (
               document.querySelector(
                 `[name="${Type}-${item.question}"]`
@@ -132,6 +140,9 @@ export class DynamicComponent implements OnInit {
     );
     responses.unshift({"useremail": this.useremail} );
     responses.unshift({ "username": this.username } );
+    alert("your responses has been saved")
+      this.is_saved=true
+      
     console.log(responses);
 
 
@@ -143,8 +154,10 @@ console.log("the admin_name in the last",this.admin_name)
 this.httpclient
     .post('http://localhost:7600/user/fill_form/'+this.admin_name+"/"+this.form_name  , responses, { headers: headers2 })
     .subscribe((response) => {
-      
+      alert("your responses has been saved")
+      this.is_saved=true
       console.log(response);
+      this.route.navigate(['/head'])
     });
 
 
