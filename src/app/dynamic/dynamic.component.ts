@@ -32,6 +32,7 @@ export class RootObject {
 })
 export class DynamicComponent implements OnInit {
   username: string = '';
+  useremail: string = '';
   public data: any;
   public url: string = '';
   public surveyID: String = '';
@@ -82,43 +83,26 @@ export class DynamicComponent implements OnInit {
         });
     });
 
-
     //make changes here
-        this.data = {
-          response: [
-            {
-              type: 'Title',
-              data: {
-                formTitle: '',
-                formDescription: '',
-              },
-            },
-            {
-              type: 'Short Answer',
-              data: {
-                question: '',
-                answer: '',
-              },
-            },
-            {
-              type: 'Email',
-              data: {
-                question: '',
-                email: '',
-              },
-            },
-            {
-              type: 'Number',
-              data: {
-                question: '',
-                number: '',
-              },
-            },
-          ],
-        };
-
-
-
+    this.data = {
+      response: [
+        {
+          Title: 'THis is you r frm ititil',
+        },
+        {
+          type: 'Short Answer',
+          question: 'What is your name',
+        },
+        {
+          type: 'Email',
+          question: 'your prsnl email',
+        },
+        {
+          type: 'Number',
+          question: 'your phone no.',
+        },
+      ],
+    };
 
     // this.data = {
     //   response: [
@@ -155,32 +139,29 @@ export class DynamicComponent implements OnInit {
   }
 
   saveForm(): void {
+    this.data.response.shift();
     const responses = this.data.response.map(
-      (item: { type: any; data: { formTitle: any; question: any } }) => {
+      (item: { type: any; question: any }) => {
         const type = item.type;
         let response;
         switch (type) {
-          case 'Title':
-            response = item.data.formTitle;
-            break;
           case 'Short Answer':
           case 'Number':
           case 'Email':
             response = (
               document.querySelector(
-                `[name="${type}-${item.data.question}"]`
+                `[name="${type}-${item.question}"]`
               ) as HTMLInputElement
             )?.value;
             break;
           default:
-            response = '';
             break;
         }
         return { type, response };
       }
     );
+    responses.unshift({"useremail": this.useremail} );
+    responses.unshift({ "username": this.username } );
     console.log(responses);
-    console.log('print username on save frm');
-    console.log(this.username);
   }
 }
