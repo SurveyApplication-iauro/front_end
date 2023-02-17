@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { saveAs } from 'file-saver';
+import * as Papa from 'papaparse';
 
 @Component({
   selector: 'app-previous-forms',
@@ -8,11 +10,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./previous-forms.component.scss'],
 })
 export class PreviousFormsComponent {
+  question!: string[];
+  answers!: unknown[];
   openLink(formName: string) {
     const adminName = this.forms.admin_name;
     const link = `http://localhost:4200/dynamic/?admin_name=${adminName}&form_name=${formName}`;
     window.alert(link);
   }
+
+  
+
 form_responses:any;
 
   forms: any = {
@@ -58,7 +65,10 @@ form_responses:any;
       });
   }
 
-  show_responses(){
+
+
+
+  show_responses(form_name:any){
    
     let token;
 
@@ -76,10 +86,17 @@ form_responses:any;
     });
 
     this.httpclient
-      .get('http://localhost:7600/show_responses/Night lyyf title', { headers: headers1 })
+      .get('http://localhost:7600/show_responses/'+form_name, { headers: headers1 })
       .subscribe((response) => {
         this.form_responses= response;
         console.log('Show my Forms', response);
+        const csv = Papa.unparse({
+          fields: this.form_responses.question,
+          data: this.form_responses.answers,
+        });
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, form_name+'.csv');
+
       });
 
   }
@@ -87,4 +104,17 @@ form_responses:any;
   redirectToLink(link: string) {
     this.router.navigate([link]);
   }
+
+
+
+  // downloadCSV() {
+  //   const csv = Papa.unparse({
+  //     fields: this.question,
+  //     data: this.answers,
+  //   });
+
+  //   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  //   saveAs(blob, 'data.csv');
+  // }
+
 }

@@ -1,11 +1,16 @@
+
 <div class="container">
 <div class="buttonContainer" *ngFor="let form of forms.my_forms">
   <button (click)="openLink(form.Form_name)">{{ form.Form_name }}</button>
+  <br>
+  <button (click)="show_responses(form.Form_name)">Show Responses</button>
+  <br>
+  <!-- <button (click)="downloadCSV(form.Form_name)">Download Responses</button> -->
 </div>
 </div>
 
 
-<button (click)="show_responses()">Show Responses</button>
+<!-- <button (click)="show_responses()">Show Responses</button> -->
 
 
 <table id="excel-table">
