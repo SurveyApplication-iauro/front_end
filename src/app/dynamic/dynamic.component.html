@@ -1,42 +1,56 @@
-<h1>username</h1>
-<input type="text" [(ngModel)]="username">
-<br>
-<br>
-<br>
-<br>
 
-<div *ngFor="let item of this.data.response; let i = index">
-  <ng-container [ngSwitch]="item.type">
 
-    <div *ngSwitchCase="'Title'">
-      <div class="type">{{item.type}}</div>
-      <h1>{{item.data.formTitle}}</h1>
+<div>
+
+  <div>
+    <h1>Title</h1>
+      <h1>{{data.response[0].Title}}</h1>
+      <hr>
+    </div>
+    
+    <h1>username</h1>
+    <input type="text" [(ngModel)]="username">
+    <hr>
+    
+    <h1>user email</h1>
+    <input type="text" [(ngModel)]="useremail">
+    <hr>
+
+    <div *ngFor="let item of this.data.response; let i = index">
+      <ng-container [ngSwitch]="item.Type">
+        
+        <div *ngSwitchCase="'short answer'">
+          <div class="type">{{item.Type}}</div>
+      <h1>{{item.question}}</h1>
+      <input type="text" [name]="'short answer-' + item.question">
+      <hr>
+    </div>
+    
+    <div *ngSwitchCase="'number'">
+      <div class="type">{{item.Type}}</div>
+      <h1>{{item.question}}</h1>
+      <input type="text" [name]="'number-' + item.question">
+      <hr>
+    </div>
+    
+    <div *ngSwitchCase="'email'">
+      <div class="type">{{item.Type}}</div>
+      <h1>{{item.question}}</h1>
+      <input type="text" [name]="'email-' + item.question">
       <hr>
     </div>
 
-    <div *ngSwitchCase="'Short Answer'">
-      <div class="type">{{item.type}}</div>
-      <h1>{{item.data.question}}</h1>
-      <input type="text" [name]="'Short Answer-' + item.data.question">
+     
+    <div *ngSwitchCase="'date'">
+      <div class="type">{{item.Type}}</div>
+      <h1>{{item.question}}</h1>
+      <input type="date" [name]="'date-' + item.question">
       <hr>
     </div>
-
-    <div *ngSwitchCase="'Number'">
-      <div class="type">{{item.type}}</div>
-      <h1>{{item.data.question}}</h1>
-      <input type="text" [name]="'Number-' + item.data.question">
-      <hr>
-    </div>
-
-    <div *ngSwitchCase="'Email'">
-      <div class="type">{{item.type}}</div>
-      <h1>{{item.data.question}}</h1>
-      <input type="text" [name]="'Email-' + item.data.question">
-      <hr>
-    </div>
-
-    <input *ngSwitchDefault type="text">
+    
+    <p *ngSwitchDefault></p>
   </ng-container>
 </div>
 
-<button (click)="saveForm()">saveForm</button>
+<button [disabled]="is_saved" (click)="saveForm()">saveForm</button>
+</div>

@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+
 export interface Survey {
   question: string;
   answertype: string;
@@ -32,21 +33,26 @@ export class RootObject {
 })
 export class DynamicComponent implements OnInit {
   username: string = '';
+  useremail: string = '';
   public data: any;
   public url: string = '';
   public surveyID: String = '';
+  
+
   dynamicForm = this.fb.group({});
   //.................
   admin_name!: string;
   form_name!: string;
   response_data: any;
-
+  is_saved=false;
   constructor(
     private fb: FormBuilder,
     private route: Router,
     private activeroute: ActivatedRoute,
     public httpclient: HttpClient
   ) {}
+  //load_status=true;
+  
   ngOnInit() {
     this.url = this.route.routerState.snapshot.url;
     this.surveyID = this.url.split('/')[2];
@@ -73,76 +79,88 @@ export class DynamicComponent implements OnInit {
           { headers: headers1 }
         )
         .subscribe((response) => {
-          this.response_data = response;
+          //this.response_data = response;
           console.log(response);
           // this.data = this.response_data
-          // this.data = { response: this.response_data };
+          this.data = { response: response };
+          
           console.log(this.username);
+          
           //you get the username here
         });
     });
 
-    this.data = {
-      response: [
-        {
-          type: 'Title',
-          data: {
-            formTitle: '',
-            formDescription: '',
-          },
-        },
-        {
-          type: 'Short Answer',
-          data: {
-            question: '',
-            answer: '',
-          },
-        },
-        {
-          type: 'Email',
-          data: {
-            question: '',
-            email: '',
-          },
-        },
-        {
-          type: 'Number',
-          data: {
-            question: '',
-            number: '',
-          },
-        },
-      ],
-    };
-  }
+    //make changes here
 
+    // this.data = {
+    //   response: [
+    //     {
+    //       Title: 'THis is you r frm ititil',
+    //     },
+    //     {
+    //       type: 'Short Answer',
+    //       question: 'What is your name',
+    //     },
+    //     {
+    //       type: 'Email',
+    //       question: 'your prsnl email',
+    //     },
+    //     {
+    //       type: 'Number',
+    //       question: 'your phone no.',
+    //     },
+    //   ],
+    // };
+
+   
+  }
+  
   saveForm(): void {
+    this.data.response.shift();
     const responses = this.data.response.map(
-      (item: { type: any; data: { formTitle: any; question: any } }) => {
-        const type = item.type;
+      (item: { Type: any; question: any }) => {
+        const Type = item.Type;
         let response;
-        switch (type) {
-          case 'Title':
-            response = item.data.formTitle;
-            break;
-          case 'Short Answer':
-          case 'Number':
-          case 'Email':
+        switch (Type) {
+          case 'short answer':
+          case 'number':
+          case 'email':
+          case 'date':
             response = (
               document.querySelector(
-                `[name="${type}-${item.data.question}"]`
+                `[name="${Type}-${item.question}"]`
               ) as HTMLInputElement
             )?.value;
             break;
           default:
-            response = '';
             break;
         }
-        return { type, response };
+        return { Type, response };
       }
     );
+    responses.unshift({"useremail": this.useremail} );
+    responses.unshift({ "username": this.username } );
+    alert("your responses has been saved")
+      this.is_saved=true
+      
     console.log(responses);
-    console.log('print username on save frm');
-    console.log(this.username);
+
+
+  /////integrator changes//////
+  const headers2 = new HttpHeaders({
+    'Content-Type': 'application/json'
+})
+console.log("the admin_name in the last",this.admin_name)
+this.httpclient
+    .post('http://localhost:7600/user/fill_form/'+this.admin_name+"/"+this.form_name  , responses, { headers: headers2 })
+    .subscribe((response) => {
+      alert("your responses has been saved")
+      this.is_saved=true
+      console.log(response);
+      this.route.navigate(['/head'])
+    });
+
+
+
   }
 }

@@ -33,6 +33,7 @@ import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 import { DynamicComponent } from './dynamic/dynamic.component';
 import { PreviousFormsComponent } from './previous-forms/previous-forms.component';
+import { ResponsesComponent } from './responses/responses.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { PreviousFormsComponent } from './previous-forms/previous-forms.componen
     HomeComponent,
     EmailComponent,
     DynamicComponent,
-    PreviousFormsComponent
+    PreviousFormsComponent,
+    ResponsesComponent
   ],
   providers: [],
   bootstrap: [AppComponent],
