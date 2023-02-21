@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   FormControl,
   FormGroupDirective,
@@ -8,7 +9,7 @@ import {
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders,HttpErrorResponse } from '@angular/common/http';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -31,7 +32,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent {
-  constructor(public httpclient: HttpClient) {}
+  constructor(public httpclient: HttpClient,public router:Router) {}
 
   userNameFormControl = new FormControl();
 
@@ -100,8 +101,20 @@ export class SignupComponent {
       .post('http://localhost:7600/reg', obj, { headers: headers1 })
       .subscribe((response) => {
         console.log(response);
-
+        alert('successfully signup');
+        setTimeout(() => {
+          this.router.navigate(['/']);
+        }, 1000)
         
+      },(error: HttpErrorResponse) => {
+        if (error.status === 409) {
+          alert('The user already existed!');
+          setTimeout(() => {
+            this.router.navigate(['/signup']);
+          }, 1000);
+        } else {
+          console.error(error);
+        }
       });
 
   }

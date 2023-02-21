@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { saveAs } from 'file-saver';
@@ -9,7 +9,7 @@ import * as Papa from 'papaparse';
   templateUrl: './previous-forms.component.html',
   styleUrls: ['./previous-forms.component.scss'],
 })
-export class PreviousFormsComponent {
+export class PreviousFormsComponent implements OnInit {
   question!: string[];
   answers!: unknown[];
   openLink(formName: string) {
@@ -18,27 +18,30 @@ export class PreviousFormsComponent {
     window.alert(link);
   }
 
-  
+  dynamicPlaceholder(){
+    return 'dyn place holder'
+  }
 
 form_responses:any;
 
-  forms: any = {
-    admin_name: 'hello',
-    my_forms: [
-      {
-        Form_name: 'Form_1',
-      },
-      {
-        Form_name: 'Form_2',
-      },
-      {
-        Form_name: 'Form_3',
-      },
-      {
-        Form_name: 'Form_4',
-      },
-    ],
-  };
+  forms: any
+  //  = {
+  //   admin_name: 'hello',
+  //   my_forms: [
+  //     {
+  //       Form_name: 'Form_1',
+  //     },
+  //     {
+  //       Form_name: 'Form_2',
+  //     },
+  //     {
+  //       Form_name: 'Form_3',
+  //     },
+  //     {
+  //       Form_name: 'Form_4',
+  //     },
+  //   ],
+  // };
 
   constructor(private router: Router, public httpclient: HttpClient) {}
   ngOnInit() {
@@ -104,7 +107,6 @@ form_responses:any;
   redirectToLink(link: string) {
     this.router.navigate([link]);
   }
-
 
 
   // downloadCSV() {

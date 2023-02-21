@@ -9,34 +9,34 @@
     </div>
     
     <h1>username</h1>
-    <input type="text" [(ngModel)]="username">
+    <input placeholder="username" type="text" [(ngModel)]="username">
     <hr>
     
     <h1>user email</h1>
-    <input type="text" [(ngModel)]="useremail">
+    <input placeholder="user email" type="text" [(ngModel)]="useremail">
     <hr>
 
     <div *ngFor="let item of this.data.response; let i = index">
       <ng-container [ngSwitch]="item.Type">
         
         <div *ngSwitchCase="'short answer'">
-          <div class="type">{{item.Type}}</div>
-      <h1>{{item.question}}</h1>
-      <input type="text" [name]="'short answer-' + item.question">
-      <hr>
-    </div>
+          <!-- <div class="type">{{item.Type}}</div> -->
+          <h1>{{item.question}}</h1>
+          <input type="text" [placeholder]="item.Type" [name]="'short answer-' + item.question">
+          <hr>
+        </div>
     
     <div *ngSwitchCase="'number'">
-      <div class="type">{{item.Type}}</div>
+      <!-- <div class="type">{{item.Type}}</div> -->
       <h1>{{item.question}}</h1>
-      <input type="text" [name]="'number-' + item.question">
+      <input type="text" [placeholder]="item.Type" [name]="'number-' + item.question">
       <hr>
     </div>
     
     <div *ngSwitchCase="'email'">
-      <div class="type">{{item.Type}}</div>
+      <!-- <div class="type">{{item.Type}}</div> -->
       <h1>{{item.question}}</h1>
-      <input type="text" [name]="'email-' + item.question">
+      <input [placeholder]="item.Type" type="text" [name]="'email-' + item.question">
       <hr>
     </div>
 

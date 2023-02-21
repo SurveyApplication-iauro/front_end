@@ -42,7 +42,7 @@ export class LoginComponent {
       return true;
     }
 
-    if (password.length < 6) {
+    if (password.length < 4) {
       return true;
     }
 

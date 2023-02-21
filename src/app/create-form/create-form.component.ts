@@ -74,7 +74,7 @@ export class CreateFormComponent implements OnInit {
     // 'Multiple Correct',
   ];
 
-  formStructure = ['Short Answer', 'Number', 'Email', 'Date'];
+  formStructure = ['Short Answer'];
 
   mainForm = [];
 
